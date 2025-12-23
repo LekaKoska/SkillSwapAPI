@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\SkillsName;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\UpdateProfileRequest;
+use App\Models\Skills;
 use App\Models\User;
+use App\Models\UserSkills;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -52,4 +56,15 @@ class AuthController extends Controller
 
         return response()->json(['message' => 'Logged out successfully']);
     }
+
+   public function bio(UpdateProfileRequest $request): JsonResponse
+   {
+       $user = auth()->user();
+       $user->update($request->validated());
+
+       return response()->json([
+           'status' => true,
+           'message' => 'Updated profile bio',
+       ], status: Response::HTTP_OK);
+   }
 }
