@@ -12,6 +12,7 @@ class Skills extends Model
 {
     const TABLE = 'skills';
     protected $table = self::TABLE;
-    protected $fillable = ['name', 'level'];
+    protected $hidden = ['created_at', 'updated_at'];
+    protected $fillable = ['id', 'name', 'level'];
     protected $casts = ['name' => SkillsName::class, 'level' => SkillLevel::class];
 }
