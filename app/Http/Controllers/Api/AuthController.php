@@ -2,16 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Enums\SkillsName;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\UpdateProfileRequest;
-use App\Models\Skills;
 use App\Models\User;
-use App\Models\UserSkills;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -24,37 +20,40 @@ class AuthController extends Controller
 
         return response()->json(
             [
+                'status' => true,
                 'message' => 'Registered new user',
-                'status' => Response::HTTP_CREATED,
                 'data' => $user,
-            ]);
+            ], status: Response::HTTP_CREATED);
     }
-    public function login(LoginRequest $request)
+    public function login(LoginRequest $request): JsonResponse
     {
         $credentials = $request->validated();
 
         if(!Auth::attempt($credentials))
         {
             return response()->json([
-                'code' => Response::HTTP_UNPROCESSABLE_ENTITY,
                 'status' => false,
-                'message' => 'Invalid credentials']);
+                'message' => 'Invalid credentials'
+            ], status: Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         $user = User::firstWhere(['email' => $credentials['email']]);
         $token = $user->createToken('Customer '.  $user->name)->plainTextToken;
 
         return response()->json([
-            'status' => Response::HTTP_OK,
+            'status' => true,
             'message' => "Successfully logged in",
             'token' => $token,
-        ]);
+        ], status: Response::HTTP_OK);
     }
-    public function logout()
+    public function logout(): JsonResponse
     {
         Auth::user()->tokens()->delete();
 
-        return response()->json(['message' => 'Logged out successfully']);
+        return response()->json([
+            'status' => true,
+            'message' => 'Logged out successfully'
+        ], status: Response::HTTP_OK);
     }
 
    public function bio(UpdateProfileRequest $request): JsonResponse

@@ -16,4 +16,3 @@ Route::controller(AuthController::class)->group(function ()
     Route::patch('/bio', 'bio')->middleware('auth:sanctum');
 });
 
-
