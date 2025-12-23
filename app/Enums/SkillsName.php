@@ -17,4 +17,8 @@ enum SkillsName: string
     case Swift = 'swift';
     case Angular = 'angular';
     case PHP = 'php';
+    case English = 'english';
+    case Marketing = 'marketing';
+    case Crypto = 'crypto';
+    case BusinessLogic = 'business_logic';
 }

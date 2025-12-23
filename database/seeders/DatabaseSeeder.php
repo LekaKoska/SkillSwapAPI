@@ -2,6 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Enums\SkillLevel;
+use App\Enums\SkillsName;
+use App\Models\Skills;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -25,5 +28,9 @@ class DatabaseSeeder extends Seeder
         ]);
 
       $user->createToken('admin-access')->plainTextToken;
+        foreach (SkillsName::cases() as $skill)
+        {
+            Skills::create(['name' => $skill->value]);
+        }
     }
 }
