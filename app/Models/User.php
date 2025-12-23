@@ -32,4 +32,9 @@ class User extends Authenticatable
             'role' => UserRole::class
         ];
     }
+
+    public function skills()
+    {
+        return $this->hasMany(related: Skills::class, foreignKey: 'user_id', localKey: 'id');
+    }
 }
